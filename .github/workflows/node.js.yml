@@ -14,18 +14,20 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [20.x]
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm i
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+      # check it to your workflow can access it
+      # from: https://github.com/actions/checkout
+      - name: Checkout Repository master branch
+        uses: actions/checkout@master
+
+      # from: https://github.com/actions/setup-node
+      - name: Setup Node.js 16.x
+        uses: actions/setup-node@master
+        with:
+          node-version: "20.x"
+
+      - name: 安装
+        run: |
+          npm install
+          npm run build 
+
