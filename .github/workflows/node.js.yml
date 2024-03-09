@@ -31,3 +31,16 @@ jobs:
           npm install
           npm run build 
 
+      - name: 设置Git信息
+        run: |
+          git config --global user.name 'xlenco' 
+          git config --global user.email '1043865083@qq.com'  
+
+      - name: 推送
+        run: |
+          cd ./dist
+          git init
+          git add .
+          git commit -m "${{ github.event.head_commit.message }} $(date +"%Z %Y-%m-%d %A %H:%M:%S") Updated By Github Actions"
+          git push --force --quiet "https://${{ github.repository_owner }}:${{ secrets.GITHUBTOKEN }}@github.com/${{ github.repository_owner }}/${{ github.repository_owner }}/Snavigation.git" master:master
+          
